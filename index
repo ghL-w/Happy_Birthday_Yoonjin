@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday!</title>
+  <style>
+    /* Global resets and basic styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Comic Sans MS', 'Arial', sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      padding: 20px;
+    }
+    .container {
+      text-align: center;
+      padding: 30px 40px;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      font-size: 3rem;
+      color: #e74c3c;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    button {
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #c0392b;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Customize the message by replacing [Friend's Name] -->
+    <h1>Happy Birthday, [Friend's Name]!</h1>
+    <p>Hope your day is as awesome as you are!</p>
+    <button onclick="startCelebration()">Celebrate!</button>
+  </div>
+  <!-- The canvas for confetti effects -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <script>
+    // Dynamically load the canvas-confetti library
+    (function() {
+      var script = document.createElement('script');
+      script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+      script.onload = function() {
+        console.log("Confetti library loaded successfully!");
+      };
+      document.head.appendChild(script);
+    })();
+
+    // Function to start the celebration with confetti
+    function startCelebration() {
+      if (typeof confetti === 'function') {
+        // Configure the duration and default settings
+        var duration = 5000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+        // Helper to get a random number in a range
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        // Launch confetti bursts at intervals
+        var interval = setInterval(function() {
+          var timeLeft = animationEnd - Date.now();
+          if (timeLeft <= 0) {
+            clearInterval(interval);
+            return;
+          }
+          var particleCount = 50 * (timeLeft / duration);
+          // Trigger confetti from a random position
+          confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0, 1), y: Math.random() - 0.2 }
+          }));
+        }, 250);
+      } else {
+        alert("Confetti library is still loading. Please try again in a moment!");
+      }
+    }
+  </script>
+</body>
+</html>
