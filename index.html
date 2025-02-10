@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday!</title>
   <style>
+    /* Load your custom font */
+    @font-face {
+      font-family: 'MyCustomFont';
+      src: url('fonts/MyCustomFont.ttf') format('truetype');
+      /* 
+         If you have additional formats, you can list them:
+         src: url('fonts/MyCustomFont.woff2') format('woff2'),
+              url('fonts/MyCustomFont.woff') format('woff'),
+              url('fonts/MyCustomFont.ttf') format('truetype');
+      */
+      font-weight: normal;
+      font-style: normal;
+    }
+
     /* Global resets and basic styling */
     * {
       margin: 0;
@@ -13,7 +27,8 @@
     }
     body, html {
       height: 100%;
-      font-family: 'Comic Sans MS', 'Arial', sans-serif;
+      /* Use your custom font here along with fallback fonts */
+      font-family: 'MyCustomFont', 'Comic Sans MS', 'Arial', sans-serif;
     }
     body {
       display: flex;
@@ -66,12 +81,10 @@
 </head>
 <body>
   <div class="container">
-    <!-- Customize the message by replacing [Friend's Name] -->
-    <h1> 윤진아 진심으로 생일 축하해 !</h1>
+    <h1>윤진아 진심으로 생일 축하해!</h1>
     <p>Hope your day is as awesome as you are!</p>
     <button onclick="startCelebration()">Celebrate!</button>
   </div>
-  <!-- The canvas for confetti effects -->
   <canvas id="confetti-canvas"></canvas>
 
   <script>
@@ -88,17 +101,14 @@
     // Function to start the celebration with confetti
     function startCelebration() {
       if (typeof confetti === 'function') {
-        // Configure the duration and default settings
         var duration = 5000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
 
-        // Helper to get a random number in a range
         function randomInRange(min, max) {
           return Math.random() * (max - min) + min;
         }
 
-        // Launch confetti bursts at intervals
         var interval = setInterval(function() {
           var timeLeft = animationEnd - Date.now();
           if (timeLeft <= 0) {
@@ -106,7 +116,6 @@
             return;
           }
           var particleCount = 50 * (timeLeft / duration);
-          // Trigger confetti from a random position
           confetti(Object.assign({}, defaults, {
             particleCount,
             origin: { x: randomInRange(0, 1), y: Math.random() - 0.2 }
